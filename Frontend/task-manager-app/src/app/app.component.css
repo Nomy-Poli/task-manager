@@ -1,0 +1,13 @@
+  .nav-button {
+    background-color: #FFD700 !important; /* צהוב בולט */
+    color: #000 !important;
+    font-weight: bold;
+    margin-left: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .nav-button:hover {
+    background-color: #FFC107 !important; /* כהה יותר ב-hover */
+  }
+  

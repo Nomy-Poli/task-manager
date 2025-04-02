@@ -1,0 +1,50 @@
+<!-- task-list.component.html -->
+<div class="container">
+  <h2>📋 רשימת משימות</h2>
+
+  <div class="search-container">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>חפש</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput [(ngModel)]="searchText" placeholder="הקלד כותרת...">
+    </mat-form-field>
+  </div>
+
+  <div class="filter-buttons">
+    <button mat-stroked-button [ngClass]="{ 'active': filterStatus === 'all', 'blue': filterStatus === 'all' }" (click)="filterStatus = 'all'">הצג הכל</button>
+    <button mat-stroked-button [ngClass]="{ 'active': filterStatus === 'completed', 'yellow': true }" (click)="filterStatus = 'completed'">בוצע</button>
+    <button mat-stroked-button [ngClass]="{ 'active': filterStatus === 'pending', 'red': true }" (click)="filterStatus = 'pending'">לא בוצע</button>
+  </div>
+
+  <div *ngIf="filteredTasks.length === 0">
+    אין משימות תואמות 😴
+  </div>
+
+  <div class="tasks-grid">
+    <mat-card *ngFor="let task of filteredTasks" class="task-card" [ngClass]="{ 'completed': task.completed }" [@fadeIn]>
+      <div class="due-date-bubble" [ngClass]="{ 'overdue-bubble': isOverdue(task.dueDate) && !task.completed }">
+        {{ task.dueDate | date: 'dd/MM' }}
+      </div>
+
+      <mat-card-title>
+        <mat-checkbox name="completed" [(ngModel)]="task.completed" (ngModelChange)="taskService.updateTask(task.id!, task).subscribe()">
+          {{ task.title }}
+        </mat-checkbox>
+      </mat-card-title>
+
+      <mat-card-content>
+        <p>{{ task.description }}</p>
+        <p [ngClass]="{ overdue: isOverdue(task.dueDate) && !task.completed }">
+          תאריך יעד: {{ task.dueDate | date: 'dd/MM/yyyy' }}
+          <span *ngIf="isOverdue(task.dueDate) && !task.completed">❗</span>
+        </p>
+        <p *ngIf="task.completed" class="congrats">🎉 כל הכבוד!</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-flat-button color="primary" [routerLink]="['/edit', task.id]">📝 ערוך</button>
+        <button mat-flat-button color="warn" (click)="deleteTask(task.id!)">🗑️ מחק</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

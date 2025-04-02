@@ -1,0 +1,38 @@
+<div class="edit-container">
+    <h2>📝 עריכת משימה</h2>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>כותרת</mat-label>
+        <input matInput formControlName="title" required>
+        <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
+          חובה להזין כותרת
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>תיאור</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>תאריך יעד</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dueDate" [min]="tomorrow">
+
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="taskForm.get('dueDate')?.hasError('required')">
+          חובה לבחור תאריך
+        </mat-error>
+        <mat-error *ngIf="taskForm.get('dueDate')?.value && taskForm.get('dueDate')?.value < today">
+          תאריך היעד חייב להיות היום או בעתיד
+        </mat-error>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" type="submit" [disabled]="!taskForm.valid">
+        💾 שמור שינויים
+      </button>
+      
+    </form>
+  </div>
+  

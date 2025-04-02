@@ -1,0 +1,10 @@
+<ng-container *ngIf="!isHomePage">
+  <mat-toolbar color="primary">
+    <span style="flex: 1 1 auto;">🗂️ Task Manager</span>
+    <button mat-flat-button class="nav-button" routerLink="/add">הוסף משימה</button>
+    <button mat-flat-button class="nav-button" routerLink="/list">רשימת משימות</button>
+      </mat-toolbar>
+  
+</ng-container>
+
+<router-outlet></router-outlet>
